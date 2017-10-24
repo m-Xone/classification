@@ -32,7 +32,7 @@ attribute_name = "family"
 ##########################################################################
 
 def family_index():
-    with open(attribute) as f:
+    with open(attribute_list) as f:
         dat = f.readlines()
     for i in range(len(dat)):
         dat[i] = dat[i].replace('\n','')

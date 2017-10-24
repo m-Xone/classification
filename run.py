@@ -13,8 +13,14 @@ import os as os
 import os.path
 from PIL import Image
 
+# families, manufacturers
+attribute_list = "./aircraft/data/families.txt"
+
+# family, manufacturer
+attribute_name = "family"
+
 def family_index():
-    with open("./aircraft/data/families.txt") as f:
+    with open(attribute) as f:
         dat = f.readlines()
     for i in range(len(dat)):
         dat[i] = dat[i].replace('\n','')
@@ -58,7 +64,7 @@ class ImageFilelist(data.Dataset):
 
 
 train_loader = torch.utils.data.DataLoader(
-    ImageFilelist(root="./aircraft/data/images/", flist="./aircraft/data/images_family_train.txt",
+    ImageFilelist(root="./aircraft/data/images/", flist="./aircraft/data/images_"+attribute_name+"_train.txt",
                   transform=transforms.Compose([transforms.Scale(256),
                                                 transforms.CenterCrop(224),
                                                 transforms.ToTensor(), 
@@ -66,7 +72,7 @@ train_loader = torch.utils.data.DataLoader(
     ])), batch_size=16, shuffle=True, num_workers=4)
 
 val_loader = torch.utils.data.DataLoader(
-    ImageFilelist(root="./aircraft/data/images/", flist="./aircraft/data/images_family_val.txt",
+    ImageFilelist(root="./aircraft/data/images/", flist="./aircraft/data/images_"+attribute_name+"_val.txt",
                   transform=transforms.Compose([transforms.Scale(256),
                                                 transforms.CenterCrop(224),
                                                 transforms.ToTensor(), 
@@ -74,7 +80,7 @@ val_loader = torch.utils.data.DataLoader(
     ])), batch_size=8, shuffle=False, num_workers=1)
 
 test_loader = torch.utils.data.DataLoader(
-    ImageFilelist(root="./aircraft/data/images/", flist="./aircraft/data/images_family_test.txt",
+    ImageFilelist(root="./aircraft/data/images/", flist="./aircraft/data/images_"+attribute_name+"_test.txt",
                   transform=transforms.Compose([transforms.Scale(256),
                                                 transforms.CenterCrop(224),
                                                 transforms.ToTensor(), 

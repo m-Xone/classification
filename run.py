@@ -1,3 +1,7 @@
+##########################################################################
+# IMPORT PACKAGES ########################################################
+##########################################################################
+
 import torch, random
 import torchvision.transforms as transforms
 from torch.autograd import Variable
@@ -13,17 +17,26 @@ import os as os
 import os.path
 from PIL import Image
 
+##########################################################################
+# EDIT HERE TO CHANGE TARGET ATTRIBUTE ###################################
+##########################################################################
+
 # families, manufacturers
 attribute_list = "./aircraft/data/families.txt"
 
 # family, manufacturer
 attribute_name = "family"
 
+##########################################################################
+# DATA LOADING ###########################################################
+##########################################################################
+
 def family_index():
     with open(attribute) as f:
         dat = f.readlines()
     for i in range(len(dat)):
         dat[i] = dat[i].replace('\n','')
+    classes = len(dat)
     return dat
 
 # from PyTorch GitHub:  https://github.com/pytorch/vision/issues/81  
@@ -61,7 +74,9 @@ class ImageFilelist(data.Dataset):
     def __len__(self):
         return len(self.imlist)
 
-
+##########################################################################
+# TRAINING, VALIDATION, and TESTING ######################################
+##########################################################################
 
 train_loader = torch.utils.data.DataLoader(
     ImageFilelist(root="./aircraft/data/images/", flist="./aircraft/data/images_"+attribute_name+"_train.txt",
@@ -88,7 +103,9 @@ test_loader = torch.utils.data.DataLoader(
     ])), batch_size=32, shuffle=False, num_workers=1)
 
 
-
+##########################################################################
+# TRAIN ##################################################################
+##########################################################################
 
 def train_model(network, criterion, optimizer, scheduler, trainLoader, valLoader, n_epochs = 10, use_gpu = False):
     if use_gpu:
@@ -164,8 +181,10 @@ def train_model(network, criterion, optimizer, scheduler, trainLoader, valLoader
             t.set_postfix(loss = cum_loss / (1 + i), accuracy = 100 * correct / counter)   
 
 
-# num classes to predict
-classes = 70
+
+##########################################################################
+# MODELS #################################################################
+##########################################################################
 
 # RESNET-18
 #network = models.resnet18(pretrained=True)
@@ -223,5 +242,9 @@ scheduler = lr_scheduler.MultiStepLR(optimizer,milestones=[4,7,8],gamma=0.4);
 #criterion = nn.CrossEntropyLoss()
 #optimizer = optim.Adamax(network.parameters(), lr = learningRate, weight_decay = 0.001)
 #scheduler = lr_scheduler.MultiStepLR(optimizer,milestones=[4,7,8],gamma=0.4);
+
+##########################################################################
+# START TRAINING #########################################################
+##########################################################################
 
 train_model(network, criterion, optimizer, scheduler, train_loader, val_loader, n_epochs = 10, use_gpu = True)

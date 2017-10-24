@@ -31,7 +31,11 @@ attribute_name = "family"
 # DATA LOADING ###########################################################
 ##########################################################################
 
+# number of unique classes
+classes = 0
+
 def family_index():
+    global classes
     with open(attribute_list) as f:
         dat = f.readlines()
     for i in range(len(dat)):

@@ -11,7 +11,7 @@
 
 + `vision_github.ipynb` contains code for dataloader construction, matplotlib rendering, and test classifications.  It also includes our training/validation/testing loops, though these are run externally from various Python files.
 
-+ `classify_utils.py` contains code obtained from the Internet that formats the sklearn classification report using PyPlot (reasoning: the raw output from sklearn is a text array)
++ `classify_utils.py` contains code obtained from the Internet that formats the sklearn classification report using PyPlot (reasoning: the raw output from sklearn is a text array) Ref:  https://stackoverflow.com/questions/28200786/how-to-plot-scikit-learn-classification-report
 
 + `resnet50_rescale_finetune_3.pth` is our most up-to-date trained model (used in application backend).
 

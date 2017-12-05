@@ -1,20 +1,20 @@
-# TRAINING
+# AEROVISION
 
-```run.py```:  a simple Python script that can be run on any machine. So far, I've 
-been running it on the department SLURM cluster, which provides all CS students access to 5 Tesla k20c GPUs, but
-it can also be run on an AWS GPU instance with the proper packages installed (i.e., torch).  It imports necessary packages,
-loads the training, testing, and validation datasets, and performs 10 training epochs using one of the various models we've
-learned in class.  (Browse the end of the file to see where you need to edit learning rate/optimizer/etc for each model.)
+### Organization
++ The `aircraft` directory contains all images in addition to text files denoting the training, validation, and test sets.
 
++ The `unused` directory contains training code and saved models from the model selection stage of the project.
 
-```run.py``` utilizes a custom DataLoader to read image names and targets from text files, which this project requires.
-I edited the aircraft .txt files such that all multi-word targets (e.g., "Boeing 747") are now single words ("Boeing_747")
-Right now, ```run.py``` is set to train _only_ on family---to train on manufacturer, you'll need to change the following sections:
++ The `hand_test` directory contains manually-obtained test images from Google image search.  These were used in conjunction with the test set to assess performance on new data.
 
-Line 25:  change ```attribute_list = "./aircraft/data/families.txt"``` to ```attribute_list = "./aircraft/data/manufacturers.txt"```
++ The `output` directory contains various `.err` files with training/validation output from the cluster (necessary because notebook port forwarding doesn't work across the job scheduler)
 
-Line 28:  change ```attribute_name = "family"``` to ```attribute_name = "manufacturer"```
++ `vision_github.ipynb` contains code for dataloader construction, matplotlib rendering, and test classifications.  It also includes our training/validation/testing loops, though these are run externally from various Python files.
 
-In order to train, you'll need to comment-out all models except the one you're testing (listed at end of ```run.py```).  
-I know that ResNet and AlexNet both train successfully (75% and 25% validation accuracy from a cursory exploration).  VGG, DenseNet, and
-GoogLeNet might need extra work and/or an array of GPUs to function properly, since they are very deep and quickly surpass 5GB memory.
++ `classify_utils.py` contains code obtained from the Internet that formats the sklearn classification report using PyPlot (reasoning: the raw output from sklearn is a text array)
+
++ `resnet50_rescale_finetune_3.pth` is our most up-to-date trained model (used in application backend).
+
++ Various bash scripts were used to run training and testing code on the CS department slurm cluster via the command `sbatch <filename>.sh`.
+
++ Various text files list the output _prediction_ and _ground-truth_ results generated during testing.  These were fed into an sklearn function to produce the classification report on page 5 of the final report.

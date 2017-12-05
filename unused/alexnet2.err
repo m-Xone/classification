@@ -1,0 +1,15 @@
+Training epoch 0:   0%|          | 0/53 [00:00<?, ?it/s]Traceback (most recent call last):
+  File "alexnet.py", line 211, in <module>
+    train_model(network, criterion, optimizer, scheduler, train_loader, val_loader, n_epochs = 20, use_gpu = True)
+  File "alexnet.py", line 140, in train_model
+    loss = criterion(outputs, labels)
+  File "/zf4/wty5dn/miniconda2/lib/python2.7/site-packages/torch/nn/modules/module.py", line 224, in __call__
+    result = self.forward(*input, **kwargs)
+  File "/zf4/wty5dn/miniconda2/lib/python2.7/site-packages/torch/nn/modules/loss.py", line 384, in forward
+    return F.multilabel_margin_loss(input, target, size_average=self.size_average)
+  File "/zf4/wty5dn/miniconda2/lib/python2.7/site-packages/torch/nn/functional.py", line 831, in multilabel_margin_loss
+    return _functions.thnn.MultiLabelMarginLoss.apply(input, target, size_average)
+  File "/zf4/wty5dn/miniconda2/lib/python2.7/site-packages/torch/nn/_functions/thnn/auto.py", line 47, in forward
+    output, *ctx.additional_args)
+RuntimeError: invalid argument 3: inconsistent target size at /opt/conda/conda-bld/pytorch_1503966894950/work/torch/lib/THCUNN/generic/MultiLabelMarginCriterion.cu:44
+srun: error: artemis1: task 0: Exited with exit code 1
